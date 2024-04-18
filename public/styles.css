@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2; /* Cor de fundo para toda a página */
+}
+
+.container, .container .form-container {
+    width: 100%; /* Estende a largura para ocupar toda a largura da tela */
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container, .search-container, .button-container {
+    margin-bottom: 20px;
+}
+
+.form-container label, .search-container label {
+    margin-right: 10px;
+}
+
+.form-container input, .search-container input {
+    padding: 5px;
+}
+
+.form-container button, .search-container button, .button-container button {
+    padding: 8px 20px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.form-container button:hover, .search-container button:hover, .button-container button:hover {
+    background-color: #0056b3;
+}
+
+#barcodeTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#barcodeTable th, #barcodeTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#barcodeTable th {
+    background-color: #f2f2f2;
+}
+
+.form-container input[type="text"],
+.search-container input[type="text"] {
+    width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.form-container label,
+.search-container label {
+    display: inline-block;
+    vertical-align: middle;
+}

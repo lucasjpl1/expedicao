@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout expedição</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="quantidadeCodigos"></div>
+
+    <div class="container">
+        <button onclick="prosseguirindex()">Encerrar lote</button>
+        <h1>Checkout expedição</h1>
+
+        <div class="form-container">
+
+            <label for="nota">Nota:</label><br>
+
+            <input type="text" id="nota" name="nota" maxlength="44"><br>
+
+            <label for="rastreio">Rastreio:</label><br>
+
+            <input type="text" id="rastreio" name="rastreio" maxlength="43">
+            
+        </div>
+
+        <div class="search-container">
+            <label for="search">Pesquisar:</label><br>
+            <input type="text" id="search" name="search">
+            <button onclick="searchBarcode()">Buscar</button>
+        </div>
+
+        <div id="barcodeScanner"></div> <!-- Div para exibir o vídeo do scanner -->
+
+        <table id="barcodeTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nota</th>
+                    <th>Rastreio</th>
+                    <th>Data</th>
+                    <th>Lote</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Dados da tabela serão inseridos aqui dinamicamente -->
+            </tbody>
+        </table>
+
+        <div class="button-container">
+            <button onclick="refreshTable()">Atualizar</button>
+            <button onclick="exportToExcel()">Exportar para Excel</button>
+          
+            <input type="hidden" id="loteId" value=""> 
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+    // Função para carregar a quantidade de códigos do lote atual
+        function carregarQuantidadeCodigos() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    var quantidade = JSON.parse(this.responseText).quantidade;
+                    document.getElementById('quantidadeCodigos').innerText = quantidade;
+                }
+            };
+            xhttp.open('GET', 'quantidade_codigos.php', true);
+            xhttp.send();
+        }
+        
+        // Chame a função após o carregamento da página
+        window.onload = function() {
+            carregarQuantidadeCodigos();
+        };
+        </script>
+</body>
+</html>
