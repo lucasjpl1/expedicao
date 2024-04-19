@@ -79,6 +79,8 @@ function updateTable(data) {
         newRow += '<td>' + row.Nota + '</td>';
         newRow += '<td>' + row.Rastreio + '</td>';
         newRow += '<td>' + row.Date_added + '</td>';
+        newRow += '<td>' + row.Lote + '</td>';
+        newRow += '<td>' + row.Estado + '</td>';
         newRow += '</tr>';
         tableBody.innerHTML += newRow;
     });
