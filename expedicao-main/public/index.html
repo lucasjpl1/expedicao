@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="quantidadeCodigos"></div>
+   
 
     <div class="container">
-        <button onclick="prosseguirindex()">Encerrar lote</button>
+     
         <h1>Checkout expedição</h1>
 
         <div class="form-container">
@@ -58,24 +58,6 @@
     </div>
 
     <script src="scripts.js"></script>
-    <script>
-    // Função para carregar a quantidade de códigos do lote atual
-        function carregarQuantidadeCodigos() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    var quantidade = JSON.parse(this.responseText).quantidade;
-                    document.getElementById('quantidadeCodigos').innerText = quantidade;
-                }
-            };
-            xhttp.open('GET', 'quantidade_codigos.php', true);
-            xhttp.send();
-        }
-        
-        // Chame a função após o carregamento da página
-        window.onload = function() {
-            carregarQuantidadeCodigos();
-        };
-        </script>
+  
 </body>
 </html>

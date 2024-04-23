@@ -29,8 +29,7 @@ function checkAndAdd() {
     }
 }
 
-// Função para adicionar os dados
-// Função para adicionar os dados
+
 // Função para adicionar os dados
 function addData(nota, rastreio) {
     // Enviar os dados para o servidor
@@ -139,29 +138,6 @@ document.getElementById('nota').addEventListener('keydown', function(event) {
     addAndMoveToNext(event, 'rastreio'); // Defina o ID do próximo campo de entrada aqui
 });
 
-// Função para criar um lote
-function criarLote() {
-    // Exibir o pop-up de nome do lote
-    var modal = document.getElementById("myModal");
-    modal.style.display = "block";
-}
-
-// Obter os elementos do modal
-var modal = document.getElementById("myModal");
-var span = document.getElementsByClassName("close")[0];
-var btnSaveLote = document.getElementById("btnSalvarLote");
-
-// Fechar o modal quando o usuário clicar no botão fechar (x)
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// Fechar o modal quando o usuário clicar fora do modal
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
 
 // Salvar o lote quando o usuário clicar no botão "Salvar Lote"
 btnSaveLote.onclick = function() {
