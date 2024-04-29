@@ -17,66 +17,60 @@ try {
     exit();
 }
 
-// Verificar o método da requisição
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Manipular requisições POST
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Verificar se os dados necessários foram recebidos
-        if (isset($_POST['Nota']) && isset($_POST['Rastreio'])) {
-            $nota = $_POST['Nota'];
-            $rastreio = $_POST['Rastreio'];
+// Manipular requisições POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verificar se os dados necessários foram recebidos
+    if (isset($_POST['notaRastreio'])) {
+        $notaRastreio = $_POST['notaRastreio'];
 
-            // Inserir os dados na tabela 'codigos'
-            try {
-                $sql = "INSERT INTO codigos (Nota, Rastreio) VALUES (:nota, :rastreio)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':nota', $nota);
-                $stmt->bindParam(':rastreio', $rastreio);
-                $stmt->execute();
+        // Separar a string em nota e rastreio
+        $dataArray = explode(' ', $notaRastreio);
 
-                $lastInsertedId = $conn->lastInsertId(); // Obter o ID do novo código inserido
+        $nota = $dataArray[0];
+        $rastreio = $dataArray[1];
 
-                http_response_code(201); // Created
-                echo json_encode(array("message" => "Código de barras inserido com sucesso.", "id" => $lastInsertedId));
-            } catch (PDOException $e) {
-                http_response_code(500); // Internal Server Error
-                echo json_encode(array("message" => "Erro ao inserir código de barras: " . $e->getMessage()));
-            }
-        } else {
-            http_response_code(400); // Bad Request
-            echo json_encode(array("message" => "Parâmetros inválidos."));
-        }
-    }
-
-    // Manipular requisições GET
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        // Recuperar dados da tabela 'codigos' e 'lotes'
+        // Inserir os dados na tabela 'codigos'
         try {
-            if (isset($_GET['search_text'])) {
-                // Se houver texto de pesquisa, filtrar os resultados
-                $search_text = $_GET['search_text'];
-                $sql = "SELECT codigos.*, lotes.nome AS nome_lote FROM codigos LEFT JOIN lotes ON codigos.Lote = lotes.id WHERE Nota LIKE :search_text OR Rastreio LIKE :search_text";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindValue(':search_text', '%' . $search_text . '%');
-                $stmt->execute();
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                // Se não houver texto de pesquisa, recuperar todos os dados
-                $sql = "SELECT codigos.*, lotes.nome AS nome_lote FROM codigos LEFT JOIN lotes ON codigos.Lote = lotes.id";
-                $stmt = $conn->query($sql);
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
+            $sql = "INSERT INTO codigos (Nota, Rastreio) VALUES (:nota, :rastreio)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':nota', $nota);
+            $stmt->bindParam(':rastreio', $rastreio);
+            $stmt->execute();
 
-            http_response_code(200); // OK
-            echo json_encode($results);
+            $lastInsertedId = $conn->lastInsertId(); // Obter o ID do novo código inserido
+
+            http_response_code(201); // Created
+            echo json_encode(array("message" => "Código de barras inserido com sucesso.", "id" => $lastInsertedId));
         } catch (PDOException $e) {
             http_response_code(500); // Internal Server Error
-            echo json_encode(array("message" => "Erro ao recuperar dados: " . $e->getMessage()));
+            echo json_encode(array("message" => "Erro ao inserir código de barras: " . $e->getMessage()));
         }
+    } else {
+        http_response_code(400); // Bad Request
+        echo json_encode(array("message" => "Parâmetros inválidos."));
     }
-} else {
-    http_response_code(405); // Method Not Allowed
-    echo json_encode(array("message" => "Método HTTP não permitido."));
+}
+
+// Manipular requisições GET
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Recuperar dados da tabela 'codigos'
+    try {
+        $sql = "SELECT * FROM codigos";
+        $stmt = $conn->query($sql);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        http_response_code(200); // OK
+        echo json_encode($results);
+    } catch (PDOException $e) {
+        http_response_code(500); // Internal Server Error
+        echo json_encode(array("message" => "Erro ao recuperar dados: " . $e->getMessage()));
+    }
+}
+try {
+    // Seu código PHP aqui
+} catch (PDOException $e) {
+    http_response_code(500); // Internal Server Error
+    echo json_encode(array("message" => "Erro no servidor: " . $e->getMessage()));
 }
 
 // Fechar a conexão com o banco de dados

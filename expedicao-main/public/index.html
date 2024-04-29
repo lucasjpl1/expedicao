@@ -7,32 +7,18 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-   
-
     <div class="container">
-     
         <h1>Checkout expedição</h1>
-
         <div class="form-container">
-
-            <label for="nota">Nota:</label><br>
-
-            <input type="text" id="nota" name="nota" maxlength="44"><br>
-
-            <label for="rastreio">Rastreio:</label><br>
-
-            <input type="text" id="rastreio" name="rastreio" maxlength="43">
-            
+            <label for="notaRastreio">Nota e Rastreio:</label><br>
+            <input type="text" id="notaRastreio" name="notaRastreio" maxlength="87"><br>
         </div>
-
         <div class="search-container">
-            <label for="search">Pesquisar:</label><br>
-            <input type="text" id="search" name="search">
-            <button onclick="searchBarcode()">Buscar</button>
-        </div>
-
+    <label for="search">Pesquisar:</label><br>
+    <input type="text" id="search" name="search">
+    <button onclick="searchBarcode()">Buscar</button>
+</div>
         <div id="barcodeScanner"></div> <!-- Div para exibir o vídeo do scanner -->
-
         <table id="barcodeTable">
             <thead>
                 <tr>
@@ -40,24 +26,18 @@
                     <th>Nota</th>
                     <th>Rastreio</th>
                     <th>Data</th>
-                    <th>Lote</th>
-                    <th>Status</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
                 <!-- Dados da tabela serão inseridos aqui dinamicamente -->
             </tbody>
         </table>
-
         <div class="button-container">
             <button onclick="refreshTable()">Atualizar</button>
             <button onclick="exportToExcel()">Exportar para Excel</button>
-          
             <input type="hidden" id="loteId" value=""> 
         </div>
     </div>
-
     <script src="scripts.js"></script>
-  
 </body>
 </html>
