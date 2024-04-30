@@ -20,37 +20,42 @@ try {
 // Manipular requisições POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verificar se os dados necessários foram recebidos
-    if (isset($_POST['notaRastreio'])) {
-        $notaRastreio = $_POST['notaRastreio'];
+    if (isset($_POST['nota']) && isset($_POST['rastreio'])) {
+        $nota = $_POST['nota'];
+        $rastreio = $_POST['rastreio'];
 
-        // Separar a string em nota e rastreio
-        $dataArray = explode(' ', $notaRastreio);
+        // Verificar se o código de rastreio já existe na tabela
+        $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM codigos WHERE Rastreio = :rastreio");
+        $stmt->bindParam(':rastreio', $rastreio);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $nota = $dataArray[0];
-        $rastreio = $dataArray[1];
+        if ($result['total'] > 0) {
+            http_response_code(400); // Bad Request
+            echo json_encode(array("message" => "O código de rastreio já existe na tabela."));
+        } else {
+            // Inserir os dados na tabela 'codigos'
+            try {
+                $sql = "INSERT INTO codigos (Nota, Rastreio) VALUES (:nota, :rastreio)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':nota', $nota);
+                $stmt->bindParam(':rastreio', $rastreio);
+                $stmt->execute();
 
-        // Inserir os dados na tabela 'codigos'
-        try {
-            $sql = "INSERT INTO codigos (Nota, Rastreio) VALUES (:nota, :rastreio)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':nota', $nota);
-            $stmt->bindParam(':rastreio', $rastreio);
-            $stmt->execute();
+                $lastInsertedId = $conn->lastInsertId(); // Obter o ID do novo código inserido
 
-            $lastInsertedId = $conn->lastInsertId(); // Obter o ID do novo código inserido
-
-            http_response_code(201); // Created
-            echo json_encode(array("message" => "Código de barras inserido com sucesso.", "id" => $lastInsertedId));
-        } catch (PDOException $e) {
-            http_response_code(500); // Internal Server Error
-            echo json_encode(array("message" => "Erro ao inserir código de barras: " . $e->getMessage()));
+                http_response_code(201); // Created
+                echo json_encode(array("message" => "Código de barras inserido com sucesso.", "id" => $lastInsertedId));
+            } catch (PDOException $e) {
+                http_response_code(500); // Internal Server Error
+                echo json_encode(array("message" => "Erro ao inserir código de barras: " . $e->getMessage()));
+            }
         }
     } else {
         http_response_code(400); // Bad Request
         echo json_encode(array("message" => "Parâmetros inválidos."));
     }
 }
-
 // Manipular requisições GET
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Recuperar dados da tabela 'codigos'
