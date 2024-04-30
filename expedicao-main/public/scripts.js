@@ -20,9 +20,19 @@ var rastreioPendente = ''; // Variável para armazenar o rastreio pendente
 function checkAndAdd() {
     var codigo = document.getElementById('notaRastreio').value.trim();
 
-    // Verifica se o código tem 44 caracteres, considerando-o uma nota
+    // Verificar se o código tem 44 caracteres, considerando-o uma nota
     if (codigo.length === 44) {
         var nota = codigo;
+
+        // Verificar se a nota já está presente na tabela
+        var notasNaTabela = Array.from(document.querySelectorAll('#barcodeTable tbody tr td:nth-child(2)')).map(td => td.innerText);
+        if (notasNaTabela.includes(nota)) {
+            console.error('Erro ao adicionar dados: O código já existe na tabela.');
+            playErrorSound();
+            document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
+            return; // Retorna sem adicionar os dados
+        }
+
         if (rastreioPendente === '') {
             // Se não houver rastreio pendente, armazena a nota
             rastreioPendente = nota;
@@ -32,9 +42,10 @@ function checkAndAdd() {
             addData(nota, rastreioPendente);
             rastreioPendente = ''; // Limpa o rastreio pendente
         }
-    } else {
-        // Se o código não tiver 44 caracteres, considera-se um rastreio
+    } else if (codigo.length < 44 && codigo.length !== 8) {
+        // Verificar se o código tem menos de 44 caracteres e não é 8 caracteres, considerando-o um rastreio
         var rastreio = codigo;
+
         if (rastreioPendente === '') {
             // Se não houver rastreio pendente, armazena o rastreio
             rastreioPendente = rastreio;
@@ -44,10 +55,22 @@ function checkAndAdd() {
             addData(rastreioPendente, rastreio);
             rastreioPendente = ''; // Limpa o rastreio pendente
         }
+    } else {
+        console.error('Erro ao adicionar dados: Código inválido.');
+        playErrorSound();
+        document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
+        return; // Retorna sem adicionar os dados
     }
 }
-
 function addData(nota, rastreio) {
+    // Verificar se o código de rastreio tem 44 caracteres
+    if (rastreio.length === 44) {
+        console.error('Erro ao adicionar dados: O código de rastreio não pode ter 44 caracteres.');
+        playErrorSound();
+        document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
+        return; // Retorna sem adicionar os dados
+    }
+
     // Enviar os dados para o servidor
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -69,7 +92,6 @@ function addData(nota, rastreio) {
     // Limpar o campo de entrada após adicionar os dados
     document.getElementById('notaRastreio').value = '';
 }
-
 
 // Função para atualizar a tabela
 function refreshTable() {

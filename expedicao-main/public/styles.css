@@ -32,7 +32,10 @@ h1 {
 }
 
 .form-container input, .search-container input {
-    padding: 5px;
+    padding: 10px;
+    width: calc(100% - 20px); /* 20px para o espaçamento dos lados */
+    max-width: 100%;
+    box-sizing: border-box; /* O tamanho total inclui padding e bordas */
 }
 
 .form-container button, .search-container button, .button-container button {
@@ -43,6 +46,9 @@ h1 {
     border: none;
     border-radius: 4px;
     transition: background-color 0.3s;
+    width: 100%;
+    max-width: 200px; /* Defina o máximo de largura para evitar que o botão ocupe toda a largura em dispositivos maiores */
+    box-sizing: border-box; /* O tamanho total inclui padding e bordas */
 }
 
 .form-container button:hover, .search-container button:hover, .button-container button:hover {
@@ -81,3 +87,21 @@ h1 {
 .highlighted {
     background-color: #ffff99; /* Cor de destaque */
 }
+
+/* Media queries para dispositivos móveis */
+@media only screen and (max-width: 600px) {
+    /* Ocultar o campo de data em dispositivos móveis */
+    #barcodeTable th:last-child,
+    #barcodeTable td:last-child {
+        display: none;
+    }
+
+    /* Diminuir um pouco o tamanho do campo de nota em dispositivos móveis */
+    #barcodeTable th:nth-child(2),
+    #barcodeTable td:nth-child(2) {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
