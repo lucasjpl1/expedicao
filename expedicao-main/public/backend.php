@@ -24,6 +24,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nota = $_POST['nota'];
         $rastreio = $_POST['rastreio'];
 
+        // Verificar se a nota contém exatamente 8 caracteres
+        if (strlen($nota) === 8) {
+            http_response_code(400); // Bad Request
+            echo json_encode(array("message" => "A nota não pode ter exatamente 8 caracteres."));
+            exit(); // Encerrar o script
+        }
+
+        // Verificar se o código de rastreio contém exatamente 8 caracteres
+        if (strlen($rastreio) === 8) {
+            http_response_code(400); // Bad Request
+            echo json_encode(array("message" => "O código de rastreio não pode ter exatamente 8 caracteres."));
+            exit(); // Encerrar o script
+        }
+
+        // Verificar se a nota contém exatamente 44 caracteres
+        if (strlen($nota) !== 44) {
+            http_response_code(400); // Bad Request
+            echo json_encode(array("message" => "A nota deve conter exatamente 44 caracteres."));
+            exit(); // Encerrar o script
+        }
+
+        // Verificar se o código de rastreio tem 44 caracteres
+        if (strlen($rastreio) >= 44 || strlen($rastreio) < 1) {
+            http_response_code(400); // Bad Request
+            echo json_encode(array("message" => "O código de rastreio deve conter entre 1 e 43 caracteres."));
+            exit(); // Encerrar o script
+        }
+
         // Verificar se o código de rastreio já existe na tabela
         $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM codigos WHERE Rastreio = :rastreio");
         $stmt->bindParam(':rastreio', $rastreio);
@@ -56,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(array("message" => "Parâmetros inválidos."));
     }
 }
+
 // Manipular requisições GET
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Recuperar dados da tabela 'codigos'
@@ -64,20 +93,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $stmt = $conn->query($sql);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Contar o número total de linhas na tabela
+        $rowCount = $stmt->rowCount();
+
         http_response_code(200); // OK
-        echo json_encode($results);
+        echo json_encode(array("total" => $rowCount, "data" => $results));
     } catch (PDOException $e) {
         http_response_code(500); // Internal Server Error
         echo json_encode(array("message" => "Erro ao recuperar dados: " . $e->getMessage()));
     }
 }
-try {
-    // Seu código PHP aqui
-} catch (PDOException $e) {
-    http_response_code(500); // Internal Server Error
-    echo json_encode(array("message" => "Erro no servidor: " . $e->getMessage()));
-}
-
 // Fechar a conexão com o banco de dados
 $conn = null;
 ?>

@@ -1,3 +1,5 @@
+var rastreioPendente = ''; // Variável para armazenar o rastreio pendente
+
 // Função para adicionar os dados quando o usuário pressionar "Enter"
 function addOnEnter(event) {
     if (event.key === 'Enter') {
@@ -15,53 +17,60 @@ document.getElementById('search').addEventListener('keypress', function(event) {
     }
 });
 
-var rastreioPendente = ''; // Variável para armazenar o rastreio pendente
-
 function checkAndAdd() {
     var codigo = document.getElementById('notaRastreio').value.trim();
-
-    // Verificar se o código tem 44 caracteres, considerando-o uma nota
-    if (codigo.length === 44) {
-        var nota = codigo;
-
-        // Verificar se a nota já está presente na tabela
-        var notasNaTabela = Array.from(document.querySelectorAll('#barcodeTable tbody tr td:nth-child(2)')).map(td => td.innerText);
-        if (notasNaTabela.includes(nota)) {
-            console.error('Erro ao adicionar dados: O código já existe na tabela.');
-            playErrorSound();
-            document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
-            return; // Retorna sem adicionar os dados
-        }
-
-        if (rastreioPendente === '') {
-            // Se não houver rastreio pendente, armazena a nota
-            rastreioPendente = nota;
-            document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
-        } else {
-            // Se já houver um rastreio pendente, adiciona os dados
-            addData(nota, rastreioPendente);
-            rastreioPendente = ''; // Limpa o rastreio pendente
-        }
-    } else if (codigo.length < 44 && codigo.length !== 8) {
-        // Verificar se o código tem menos de 44 caracteres e não é 8 caracteres, considerando-o um rastreio
-        var rastreio = codigo;
-
-        if (rastreioPendente === '') {
-            // Se não houver rastreio pendente, armazena o rastreio
-            rastreioPendente = rastreio;
-            document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
-        } else {
-            // Se já houver uma nota pendente, adiciona os dados
-            addData(rastreioPendente, rastreio);
-            rastreioPendente = ''; // Limpa o rastreio pendente
-        }
-    } else {
-        console.error('Erro ao adicionar dados: Código inválido.');
+  
+    // Verificar se o código tem exatamente 44 caracteres e é composto apenas por números
+    if (codigo.length === 44 && /^[0-9]+$/.test(codigo)) {
+      var nota = codigo;
+  
+      // Verificar se a nota já está presente na tabela
+      var notasNaTabela = Array.from(document.querySelectorAll('#barcodeTable tbody tr td:nth-child(2)')).map(td => td.innerText);
+      if (notasNaTabela.includes(nota)) {
+        console.error('Erro ao adicionar dados: O código já existe na tabela.');
         playErrorSound();
         document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
         return; // Retorna sem adicionar os dados
+      }
+  
+      if (rastreioPendente === '') {
+        // Se não houver rastreio pendente, armazena a nota
+        rastreioPendente = nota;
+        document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
+      } else {
+        // Se já houver um rastreio pendente, adiciona os dados
+        addData(nota, rastreioPendente);
+        rastreioPendente = ''; // Limpa o rastreio pendente
+      }
+    } else if (codigo.length < 44 && codigo.length !== 8) {
+      var rastreio = codigo;
+  
+      // Verificar se o rastreio já está presente na tabela como nota
+      var notasNaTabela = Array.from(document.querySelectorAll('#barcodeTable tbody tr td:nth-child(3)')).map(td => td.innerText);
+      if (notasNaTabela.includes(rastreio)) {
+        console.error('Erro ao adicionar dados: O código de rastreio já existe na tabela como nota.');
+        playErrorSound();
+        document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
+        return; // Retorna sem adicionar os dados
+      }
+  
+      if (rastreioPendente === '') {
+        // Se não houver rastreio pendente, armazena o rastreio
+        rastreioPendente = rastreio;
+        document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
+      } else {
+        // Se já houver uma nota pendente, adiciona os dados
+        addData(rastreioPendente, rastreio);
+        rastreioPendente = ''; // Limpa o rastreio pendente
+      }
+    } else {
+      console.error('Erro ao adicionar dados: Código inválido.');
+      playErrorSound();
+      document.getElementById('notaRastreio').value = ''; // Limpa o campo de entrada
+      return; // Retorna sem adicionar os dados
     }
-}
+  }
+
 function addData(nota, rastreio) {
     // Verificar se o código de rastreio tem 44 caracteres
     if (rastreio.length === 44) {
@@ -93,16 +102,26 @@ function addData(nota, rastreio) {
     document.getElementById('notaRastreio').value = '';
 }
 
-// Função para atualizar a tabela
 function refreshTable() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            updateTable(JSON.parse(this.responseText));
+            var response = JSON.parse(this.responseText);
+            updateTable(response.data);
+            displayTotalRows(response.total); // Exibir o total de linhas
         }
     };
     xhttp.open('GET', 'backend.php', true);
     xhttp.send();
+}
+
+function displayTotalRows(total) {
+    var totalRowsContainer = document.getElementById('totalRowsContainer');
+    if (totalRowsContainer) {
+        totalRowsContainer.textContent = 'Total de Encomendas: ' + total;
+    } else {
+        console.error('Elemento totalRowsContainer não encontrado.');
+    }
 }
 
 // Função para atualizar a tabela
@@ -156,6 +175,7 @@ function searchBarcode() {
         }
     });
 }
+
 function playErrorSound() {
     var audio = new Audio('error_sound.mp3'); 
     audio.play();

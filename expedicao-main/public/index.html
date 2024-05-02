@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout expedição</title>
+    <title>Checkout Expedição</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,10 +14,10 @@
             <input type="text" id="notaRastreio" name="notaRastreio" maxlength="87"><br>
         </div>
         <div class="search-container">
-    <label for="search">Pesquisar:</label><br>
-    <input type="text" id="search" name="search">
-    <button onclick="searchBarcode()">Buscar</button>
-</div>
+            <label for="search">Pesquisar:</label><br>
+            <input type="text" id="search" name="search">
+            <button onclick="searchBarcode()">Buscar</button>
+        </div>
         <div id="barcodeScanner"></div> <!-- Div para exibir o vídeo do scanner -->
         <table id="barcodeTable">
             <thead>
@@ -32,6 +32,8 @@
                 <!-- Dados da tabela serão inseridos aqui dinamicamente -->
             </tbody>
         </table>
+        <!-- Div para exibir o total de linhas -->
+        <div id="totalRowsContainer"></div>
         <div class="button-container">
             <button onclick="refreshTable()">Atualizar</button>
             <button onclick="exportToExcel()">Exportar para Excel</button>
