@@ -19,6 +19,7 @@ body {
 }
 
 h1 {
+    
     text-align: center;
     margin-bottom: 20px;
 }
@@ -32,6 +33,7 @@ h1 {
 }
 
 .form-container input, .search-container input {
+    font-size: 20px;
     padding: 10px;
     width: calc(100% - 20px); /* 20px para o espaçamento dos lados */
     max-width: 100%;
@@ -102,6 +104,23 @@ h1 {
         max-width: 150px;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    /* Ajustes para os campos de busca e nota de rastreamento */
+    .form-container input[type="text"],
+    .search-container input[type="text"],
+    .form-container label,
+    .search-container label {
+        width: calc(100% - 5px); /* Distribui igualmente em dispositivos móveis */
+        /*margin-right: 5px;*/
+        margin-left: 5px;
+        margin-bottom: 1px; /* Adiciona um espaçamento entre os campos */
+        display: block; /* Garante que cada campo apareça em uma linha separada */
+    }
+
+    .form-container button,
+    .search-container button {
+        width: 100%; /* Estende o botão para ocupar a largura total */
     }
 }
 
