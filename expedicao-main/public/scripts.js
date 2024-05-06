@@ -115,14 +115,17 @@ function refreshTable() {
     xhttp.send();
 }
 
+// Função para exibir o total de linhas
 function displayTotalRows(total) {
     var totalRowsContainer = document.getElementById('totalRowsContainer');
     if (totalRowsContainer) {
         totalRowsContainer.textContent = 'Total de Encomendas: ' + total;
+        totalRowsContainer.style.fontSize = "24px"; // Aplicar estilo diretamente
     } else {
         console.error('Elemento totalRowsContainer não encontrado.');
     }
 }
+
 
 // Função para atualizar a tabela
 function updateTable(data) {
@@ -135,6 +138,7 @@ function updateTable(data) {
         newRow += '<td>' + row.Nota + '</td>';
         newRow += '<td>' + row.Rastreio + '</td>';
         newRow += '<td>' + row.Date_added + '</td>';
+        
         newRow += '</tr>';
         tableBody.innerHTML += newRow;
     });
@@ -158,25 +162,65 @@ window.onload = function() {
     refreshTable();
 };
 
-// Função para buscar o código na tabela
 function searchBarcode() {
-    var searchTerm = document.getElementById('search').value.trim().toLowerCase();
-    var tableRows = document.querySelectorAll('#barcodeTable tbody tr');
-
-    tableRows.forEach(function(row) {
-        var id = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
-        var nota = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
-        var rastreio = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
-        
-        if (id.includes(searchTerm) || nota.includes(searchTerm) || rastreio.includes(searchTerm)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
+    var searchTerm = document.getElementById('search').value.trim();
+    
+    // Enviar o termo de pesquisa para o servidor
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            var response = JSON.parse(this.responseText);
+            updateTable(response.data); // Atualizar a tabela com os resultados da pesquisa
+            displayTotalRows(response.total); // Atualizar o total de linhas exibidas
         }
-    });
+    };
+    xhttp.open('GET', 'backend.php?search=' + encodeURIComponent(searchTerm), true);
+    xhttp.send();
 }
 
 function playErrorSound() {
     var audio = new Audio('error_sound.mp3'); 
     audio.play();
 }
+function criarLote() {
+    var nomeLote = document.getElementById('nomeLote').value.trim();
+
+    if (nomeLote !== '') {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                if (this.status === 201) {
+                    alert('Lote criado com sucesso!');
+                    refreshTable(); // Atualize a tabela após criar o lote
+                    document.getElementById('nomeLote').value = ''; // Limpar o campo de texto
+                    atualizarLotes(); // Chama a função para associar os códigos ao lote
+                } else if (this.status !== 200) {
+                    console.error('Erro ao criar lote:', this.status, JSON.parse(this.responseText));
+                    playErrorSound(); // Reproduzir som de erro apenas se não for um sucesso
+                }
+            }
+        };
+        xhttp.open('POST', 'criar_lote.php', true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        var params = 'nome=' + encodeURIComponent(nomeLote);
+        xhttp.send(params);
+    } else {
+        alert('Por favor, insira um nome para o lote.');
+    }
+}
+
+function atualizarLotes() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            //alert('Códigos atualizados com sucesso!');
+            // Você pode adicionar aqui alguma outra ação após a atualização dos códigos, se necessário
+        } else if (this.readyState === 4 && this.status !== 200) {
+            console.error('Erro ao atualizar os códigos:', this.status, JSON.parse(this.responseText));
+            playErrorSound(); // Reproduzir som de erro apenas se não for um sucesso
+        }
+    };
+    xhttp.open('POST', 'atualizar_lotes.php', true);
+    xhttp.send();
+}
+

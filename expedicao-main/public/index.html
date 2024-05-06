@@ -31,13 +31,19 @@
             <tbody id="tableBody">
                 <!-- Dados da tabela serão inseridos aqui dinamicamente -->
             </tbody>
-        </table>
+        </table><br>
         <!-- Div para exibir o total de linhas -->
         <div id="totalRowsContainer"></div>
         <div class="button-container">
-            <button onclick="refreshTable()">Atualizar</button>
-            <button onclick="exportToExcel()">Exportar para Excel</button>
+            <!--<button onclick="refreshTable()">Atualizar</button>
+            <button onclick="exportToExcel()">Exportar para Excel</button>-->
             <input type="hidden" id="loteId" value=""> 
+        </div>
+        <!-- Novo campo para criar lote -->
+        <div class="form-container">
+            <label for="nomeLote">Nome da Transportadora:</label><br>
+            <input type="text" id="nomeLote" name="nomeLote"><br>
+            <button onclick="criarLote()">Fechar Lote</button>
         </div>
     </div>
     <script src="scripts.js"></script>

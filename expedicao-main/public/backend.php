@@ -87,22 +87,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Manipular requisições GET
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Recuperar dados da tabela 'codigos'
-    try {
-        $sql = "SELECT * FROM codigos";
-        $stmt = $conn->query($sql);
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Verificar se há um termo de pesquisa fornecido
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $searchTerm = $_GET['search'];
 
-        // Contar o número total de linhas na tabela
-        $rowCount = $stmt->rowCount();
+        // Recuperar dados da tabela 'codigos' que correspondem ao termo de pesquisa
+        try {
+            $sql = "SELECT c.* FROM codigos c LEFT JOIN lotes l ON c.Lote = l.id WHERE (c.Rastreio LIKE :search OR c.Nota LIKE :search OR c.Date_added LIKE :search OR l.nome LIKE :search)";
+            $stmt = $conn->prepare($sql);
+            $searchTerm = "%$searchTerm%"; // Adicionar wildcards para pesquisar parcialmente
+            $stmt->bindParam(':search', $searchTerm, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        http_response_code(200); // OK
-        echo json_encode(array("total" => $rowCount, "data" => $results));
-    } catch (PDOException $e) {
-        http_response_code(500); // Internal Server Error
-        echo json_encode(array("message" => "Erro ao recuperar dados: " . $e->getMessage()));
+            // Contar o número total de linhas na tabela
+            $rowCount = $stmt->rowCount();
+
+            http_response_code(200); // OK
+            echo json_encode(array("total" => $rowCount, "data" => $results));
+        } catch (PDOException $e) {
+            http_response_code(500); // Internal Server Error
+            echo json_encode(array("message" => "Erro ao recuperar dados: " . $e->getMessage()));
+        }
+    } else {
+        // Recuperar todos os dados da tabela 'codigos' onde o campo 'Lote' é nulo
+        try {
+            $sql = "SELECT * FROM codigos WHERE Lote IS NULL";
+            $stmt = $conn->query($sql);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Contar o número total de linhas na tabela
+            $rowCount = $stmt->rowCount();
+
+            http_response_code(200); // OK
+            echo json_encode(array("total" => $rowCount, "data" => $results));
+        } catch (PDOException $e) {
+            http_response_code(500); // Internal Server Error
+            echo json_encode(array("message" => "Erro ao recuperar dados: " . $e->getMessage()));
+        }
     }
 }
+
 // Fechar a conexão com o banco de dados
 $conn = null;
 ?>
