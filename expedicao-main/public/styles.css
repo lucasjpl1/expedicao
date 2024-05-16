@@ -5,7 +5,7 @@ body {
     background-color: #f2f2f2; /* Cor de fundo para toda a página */
 }
 
-.container, .container .form-container {
+.container, .container .form-container .containerchek {
     width: 100%; /* Estende a largura para ocupar toda a largura da tela */
 }
 
@@ -110,6 +110,7 @@ h1 {
     .form-container input[type="text"],
     .search-container input[type="text"],
     .form-container label,
+    .containerchek
     .search-container label {
         width: calc(100% - 5px); /* Distribui igualmente em dispositivos móveis */
         /*margin-right: 5px;*/

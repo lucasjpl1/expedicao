@@ -92,7 +92,7 @@ function addData(nota, rastreio) {
             }
         }
     };
-    xhttp.open('POST', 'backend.php', true);
+    xhttp.open('POST', 'Dev.php', true);
     xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // Certifique-se de que os parâmetros estejam corretamente codificados
     var params = 'nota=' + encodeURIComponent(nota) + '&rastreio=' + encodeURIComponent(rastreio);
@@ -111,7 +111,7 @@ function refreshTable() {
             displayTotalRows(response.total); // Exibir o total de linhas
         }
     };
-    xhttp.open('GET', 'backend.php', true);
+    xhttp.open('GET', 'Dev.php', true);
     xhttp.send();
 }
 
@@ -174,7 +174,7 @@ function searchBarcode() {
             displayTotalRows(response.total); // Atualizar o total de linhas exibidas
         }
     };
-    xhttp.open('GET', 'backend.php?search=' + encodeURIComponent(searchTerm), true);
+    xhttp.open('GET', 'Dev.php?search=' + encodeURIComponent(searchTerm), true);
     xhttp.send();
 }
 
@@ -224,8 +224,8 @@ function atualizarLotes() {
     xhttp.send();
 }
 
-function Devolucao() {
+function Home() {
     // Redireciona para a página Devolu.html
-    window.location.href = 'Devolu.html';
+    window.location.href = 'index.html';
 }
 
