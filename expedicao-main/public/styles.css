@@ -114,8 +114,8 @@ h1 {
     .search-container label {
         width: calc(100% - 5px); /* Distribui igualmente em dispositivos móveis */
         /*margin-right: 5px;*/
-        margin-left: 5px;
-        margin-bottom: 1px; /* Adiciona um espaçamento entre os campos */
+        margin-left: 4px;
+        margin-bottom:5px; /* Adiciona um espaçamento entre os campos */
         display: block; /* Garante que cada campo apareça em uma linha separada */
     }
 

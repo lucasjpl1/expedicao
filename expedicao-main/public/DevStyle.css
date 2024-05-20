@@ -10,7 +10,8 @@
 /* Estilo geral do corpo */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Cor de fundo padrão */
+    background: rgb(251,63,63);
+background: radial-gradient(circle, rgba(251,63,63,1) 0%, rgba(159,17,193,1) 100%);
     padding: 20px;
     color: #333;
 }
@@ -19,7 +20,7 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 20px;
-    color: #8B4513; /* Marrom escuro */
+    color: #ffffff; /* Marrom escuro */
 }
 
 /* Contêiner principal */
@@ -115,4 +116,38 @@ table th {
     padding: 10px;
     border-radius: 4px;
     background-color: #FFF8DC; /* Creme claro */
+}
+/* Media queries para dispositivos móveis */
+@media only screen and (max-width: 600px) {
+    /* Ocultar o campo de data em dispositivos móveis */
+    #barcodeTable th:last-child,
+    #barcodeTable td:last-child {
+        display: none;
+    }
+
+    /* Diminuir um pouco o tamanho do campo de nota em dispositivos móveis */
+    #barcodeTable th:nth-child(2),
+    #barcodeTable td:nth-child(2) {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Ajustes para os campos de busca e nota de rastreamento */
+    .form-container input[type="text"],
+    .search-container input[type="text"],
+    .form-container label,
+    .containerchek
+    .search-container label {
+        width: calc(100% - 5px); /* Distribui igualmente em dispositivos móveis */
+        /*margin-right: 5px;*/
+        margin-left: 5px;
+        margin-bottom: 1px; /* Adiciona um espaçamento entre os campos */
+        display: block; /* Garante que cada campo apareça em uma linha separada */
+    }
+
+    .form-container button,
+    .search-container button {
+        width: 100%; /* Estende o botão para ocupar a largura total */
+    }
 }

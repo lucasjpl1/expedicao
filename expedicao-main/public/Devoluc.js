@@ -134,7 +134,6 @@ function updateTable(data) {
 
     data.forEach(function(row) {
         var newRow = '<tr>';
-        newRow += '<td>' + row.id + '</td>';
         newRow += '<td>' + row.Nota + '</td>';
         newRow += '<td>' + row.Rastreio + '</td>';
         newRow += '<td>' + row.Date_added + '</td>';
