@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devolução</title>
     <link rel="stylesheet" href="DevStyle.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
 <body>
     <h1>Devolução</h1><br>
@@ -20,7 +21,7 @@
             <input type="text" id="search" name="search">
             <button onclick="searchBarcode()">Buscar</button>
         </div>
-        <div id="barcodeScanner"></div> <!-- Div para exibir o vídeo do scanner -->
+     <!--  <div id="barcodeScanner"></div> --> <!-- Div para exibir o vídeo do scanner -->
         <table id="barcodeTable">
             <thead>
                 <tr>
@@ -47,7 +48,9 @@
             <button onclick="criarLote()">Fechar Lote</button>
             <button onclick="Home()">Home</button>
         </div>
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="Devoluc.js"></script>
 </body>
 </html>
