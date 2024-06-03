@@ -10,26 +10,25 @@
 /* Estilo geral do corpo */
 body {
     font-family: Arial, sans-serif;
-    background: rgb(251,63,63);
-background: radial-gradient(circle, rgba(251,63,63,1) 0%, rgba(159,17,193,1) 100%);
+    background: rgb#000000;
     padding: 20px;
-    color: #333;
+    color: #e9ecef;
 }
 
 /* Estilo do título principal */
 h1 {
     text-align: center;
     margin-bottom: 20px;
-    color: #ffffff; /* Marrom escuro */
+    color: #000000; /* Marrom escuro */
 }
 
 /* Contêiner principal */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    background-color: #FFFDD0; /* Creme */
+    background-color: #e9ecef; /* Creme */
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgb(19 66 239);
     border-radius: 8px;
 }
 
@@ -43,7 +42,7 @@ label {
     font-weight: bold;
     margin-bottom: 5px;
     display: inline-block;
-    color: #8B4513; /* Marrom escuro */
+    color: #000000; /* Marrom escuro */
 }
 
 /* Estilo dos inputs */
@@ -51,25 +50,25 @@ input[type="text"] {
     width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #8B4513; /* Marrom escuro */
+    border: 1px solid #000000; /* Marrom escuro */
     border-radius: 4px;
-    background-color: #FFF5EE; /* Creme mais claro */
-    color: #8B4513; /* Marrom escuro */
+    background-color: #ffffff; /* Creme mais claro */
+    color: #0069d9; /* Marrom escuro */
 }
 
 /* Estilo dos botões */
 button {
-    background-color: #8B0000; /* Vermelho escuro */
+    background-color: #0069d9; /* Vermelho escuro */
     color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s cubic-bezier(0.28, 0.05, 0.16, 0.89);
 }
 
 button:hover {
-    background-color: #B22222; /* Vermelho um pouco mais claro */
+    background-color: #180606; /* Vermelho um pouco mais claro */
 }
 
 /* Contêiner de busca */
@@ -85,14 +84,14 @@ table {
 }
 
 table th, table td {
-    border: 1px solid #8B4513; /* Marrom escuro */
+    border: 1px solid #000000; /* Marrom escuro */
     padding: 8px;
     text-align: left;
-    color: #8B4513; /* Marrom escuro */
+    color: #000000; /* Marrom escuro */
 }
 
 table th {
-    background-color: #FFF8DC; /* Creme claro */
+    background-color: #ffffff; /* Creme claro */
     font-weight: bold;
 }
 
@@ -100,7 +99,7 @@ table th {
 #totalRowsContainer {
     margin-top: 20px;
     font-weight: bold;
-    color: #8B4513; /* Marrom escuro */
+    color: #000000; /* Marrom escuro */
 }
 
 /* Contêiner de botões */
@@ -112,10 +111,10 @@ table th {
 /* Estilo para o vídeo do scanner */
 #barcodeScanner {
     margin-top: 20px;
-    border: 1px solid #8B4513; /* Marrom escuro */
+    border: 1px solid #000000; /* Marrom escuro */
     padding: 10px;
     border-radius: 4px;
-    background-color: #FFF8DC; /* Creme claro */
+    background-color: #ffffff; /* Creme claro */
 }
 /* Media queries para dispositivos móveis */
 @media only screen and (max-width: 600px) {

@@ -108,7 +108,6 @@ function refreshTable() {
         if (this.readyState === 4 && this.status === 200) {
             var response = JSON.parse(this.responseText);
             updateTable(response.data);
-            displayTotalRows(response.total); // Exibir o total de linhas
         }
     };
     xhttp.open('GET', 'backend.php', true);
@@ -129,18 +128,19 @@ function displayTotalRows(total) {
 
 // Função para atualizar a tabela
 function updateTable(data) {
-    var tableBody = document.getElementById('tableBody');
-    tableBody.innerHTML = '';
+    var table = $('#barcodeTable').DataTable();
+    table.clear().draw(); // Limpar a tabela
 
     data.forEach(function(row) {
-        var newRow = '<tr>';
-        newRow += '<td>' + row.Nota + '</td>';
-        newRow += '<td>' + row.Rastreio + '</td>';
-        newRow += '<td>' + row.Date_added + '</td>';
-        
-        newRow += '</tr>';
-        tableBody.innerHTML += newRow;
+        table.row.add([
+            row.Nota,
+            row.Rastreio,
+            row.Date_added
+        ]).draw(false); // Adicionar nova linha e desenhar sem redefinir a paginação
     });
+
+    displayTotalRows(data.length); // Atualizar o total de linhas exibidas
+
 
     // Adicionar evento de clique para selecionar uma linha da tabela
     var tableRows = document.querySelectorAll('#barcodeTable tbody tr');
@@ -228,3 +228,25 @@ function Devolucao() {
     window.location.href = 'Devolu.html';
 }
 
+$(document).ready(function() {
+    $('#barcodeTable').DataTable({
+        "pageLength": 100,
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "language": {
+            "lengthMenu": "Exibir _MENU_ linhas por página",
+            "zeroRecords": "Nenhum registro encontrado",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "Nenhum registro disponível",
+            "infoFiltered": "(filtrado de _MAX_ registros no total)",
+            "search": "Pesquisar:",
+            "paginate": {
+                "first": "Primeiro",
+                "last": "Último",
+                "next": "Próximo",
+                "previous": "Anterior"
+            }
+        }
+    });
+});
