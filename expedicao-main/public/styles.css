@@ -1,95 +1,121 @@
-body {
-    font-family: Arial, sans-serif;
+﻿/* DevStyle.css */
+
+/* Reset de estilo */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f2f2f2; /* Cor de fundo para toda a página */
+    box-sizing: border-box;
 }
 
-.container, .container .form-container .containerchek {
-    width: 100%; /* Estende a largura para ocupar toda a largura da tela */
-}
-
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
+/* Estilo geral do corpo */
+body {
+    font-family: Arial, sans-serif;
+    background: rgb#000000;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #e9ecef;
 }
 
+/* Estilo do título principal */
 h1 {
-    
     text-align: center;
     margin-bottom: 20px;
+    color: #000000; /* Marrom escuro */
 }
 
-.form-container, .search-container, .button-container {
+/* Contêiner principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #e9ecef; /* Creme */
+    padding: 20px;
+    box-shadow: 0 0 10px rgb(19 66 239);
+    border-radius: 8px;
+}
+
+/* Contêiner do formulário */
+.form-container {
     margin-bottom: 20px;
 }
 
-.form-container label, .search-container label {
-    margin-right: 10px;
+/* Estilo dos labels */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #000000; /* Marrom escuro */
 }
 
-.form-container input, .search-container input {
-    font-size: 20px;
+/* Estilo dos inputs */
+input[type="text"] {
+    width: calc(100% - 20px);
     padding: 10px;
-    width: calc(100% - 20px); /* 20px para o espaçamento dos lados */
-    max-width: 100%;
-    box-sizing: border-box; /* O tamanho total inclui padding e bordas */
+    margin-bottom: 10px;
+    border: 1px solid #000000; /* Marrom escuro */
+    border-radius: 4px;
+    background-color: #ffffff; /* Creme mais claro */
+    color: #0069d9; /* Marrom escuro */
 }
 
-.form-container button, .search-container button, .button-container button {
-    padding: 8px 20px;
-    cursor: pointer;
-    background-color: #007bff;
+/* Estilo dos botões */
+button {
+    background-color: #0069d9; /* Vermelho escuro */
     color: #fff;
     border: none;
+    padding: 10px 20px;
     border-radius: 4px;
-    transition: background-color 0.3s;
-    width: 100%;
-    max-width: 200px; /* Defina o máximo de largura para evitar que o botão ocupe toda a largura em dispositivos maiores */
-    box-sizing: border-box; /* O tamanho total inclui padding e bordas */
+    cursor: pointer;
+    transition: background-color 0.3s cubic-bezier(0.28, 0.05, 0.16, 0.89);
 }
 
-.form-container button:hover, .search-container button:hover, .button-container button:hover {
-    background-color: #0056b3;
+button:hover {
+    background-color: #180606; /* Vermelho um pouco mais claro */
 }
 
-#barcodeTable {
+/* Contêiner de busca */
+.search-container {
+    margin-bottom: 20px;
+}
+
+/* Estilo da tabela */
+table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
-#barcodeTable th, #barcodeTable td {
-    border: 1px solid #ddd;
+table th, table td {
+    border: 1px solid #000000; /* Marrom escuro */
     padding: 8px;
     text-align: left;
+    color: #000000; /* Marrom escuro */
 }
 
-#barcodeTable th {
-    background-color: #f2f2f2;
+table th {
+    background-color: #ffffff; /* Creme claro */
+    font-weight: bold;
 }
 
-.form-container input[type="text"],
-.search-container input[type="text"] {
-    width: 100%;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 10px;
+/* Contêiner do total de linhas */
+#totalRowsContainer {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #000000; /* Marrom escuro */
 }
 
-.form-container label,
-.search-container label {
-    display: inline-block;
-    vertical-align: middle;
+/* Contêiner de botões */
+.button-container {
+    margin-top: 20px;
+    text-align: right;
 }
 
-.highlighted {
-    background-color: #ffff99; /* Cor de destaque */
+/* Estilo para o vídeo do scanner */
+#barcodeScanner {
+    margin-top: 20px;
+    border: 1px solid #000000; /* Marrom escuro */
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #ffffff; /* Creme claro */
 }
-
 /* Media queries para dispositivos móveis */
 @media only screen and (max-width: 600px) {
     /* Ocultar o campo de data em dispositivos móveis */
@@ -114,8 +140,8 @@ h1 {
     .search-container label {
         width: calc(100% - 5px); /* Distribui igualmente em dispositivos móveis */
         /*margin-right: 5px;*/
-        margin-left: 4px;
-        margin-bottom:5px; /* Adiciona um espaçamento entre os campos */
+        margin-left: 5px;
+        margin-bottom: 1px; /* Adiciona um espaçamento entre os campos */
         display: block; /* Garante que cada campo apareça em uma linha separada */
     }
 
@@ -123,8 +149,4 @@ h1 {
     .search-container button {
         width: 100%; /* Estende o botão para ocupar a largura total */
     }
-
-   
-    
 }
-

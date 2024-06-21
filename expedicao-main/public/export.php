@@ -1,9 +1,9 @@
 <?php
 // Conexão com o banco de dados
-$host = '192.168.1.11';
+$host = 'localhost';
 $database = 'scanner_codigos_barras';
 $username = 'root';
-$password = 'Luc@1081';
+$password = "root";
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);

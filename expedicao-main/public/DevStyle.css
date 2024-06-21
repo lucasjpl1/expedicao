@@ -1,4 +1,4 @@
-/* DevStyle.css */
+﻿/* DevStyle.css */
 
 /* Reset de estilo */
 * {
@@ -22,13 +22,13 @@ h1 {
     color: #000000; /* Marrom escuro */
 }
 
-/* Contêiner principal */
+/* Contêiner principal Fundo*/
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    background-color: #e9ecef; /* Creme */
+    background-color: #ececec; 
     padding: 20px;
-    box-shadow: 0 0 10px rgb(19 66 239);
+    box-shadow: 0 0 10px rgb(255, 0, 0);
     border-radius: 8px;
 }
 
